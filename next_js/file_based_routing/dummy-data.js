@@ -29,6 +29,16 @@ const DUMMY_EVENTS = [
       image: 'images/acting.jpg',
       isFeatured: true,
     },
+    {
+      id: 'e4',
+      title: 'Acting for introverts',
+      description:
+        'You probably need no help with networking in general. But focusing your energy correctly - that is something where most people can improve.',
+      location: 'My Street 10, 10115 Broke City',
+      date: '2022-04-22',
+      image: 'images/reading.jpg',
+      isFeatured: true,
+    },
   ];
   
   export function getFeaturedEvents() {
@@ -41,12 +51,12 @@ const DUMMY_EVENTS = [
   
   export function getFilteredEvents(dateFilter) {
     const { year, month } = dateFilter;
-  
+    console.log(month)
     let filteredEvents = DUMMY_EVENTS.filter((event) => {
       const eventDate = new Date(event.date);
       return eventDate.getFullYear() === year && eventDate.getMonth() === month - 1;
     });
-  
+    console.log(filteredEvents)
     return filteredEvents;
   }
   
