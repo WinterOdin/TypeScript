@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import Link from 'next/link';
 
 function HomePage(props){
 
@@ -7,10 +8,14 @@ function HomePage(props){
 
     return (
         <ul>
-            {product.map(product => <li key={product.id}>{product.title}</li>)}
+            {product.map(product => 
+                <li key={product.id}>
+                    <Link href={`/products/${product.id}`}>{product.title}</Link>
+                </li>)}
         </ul>
     );
 }
+
 
 export async function getStaticProps(){
     const filePath = path.join(
@@ -23,8 +28,9 @@ export async function getStaticProps(){
     return {
         props:{
             product:data.products
-        }
-    }
+        },
+        revalidate: 10
+    };
 
 }
 
