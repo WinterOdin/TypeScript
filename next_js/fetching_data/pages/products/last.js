@@ -1,52 +1,59 @@
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 
-function LastSale(){
-    const [sales, setSales] = useState();
-    const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
-        fetch('https://next-js-9d1ee-default-rtdb.europe-west1.firebasedatabase.app/sales.json'
-        ).then((resp) => resp.json)
-        .then((data) => {
+function LastSale(props){
 
-            const salesData = [];
+    const [sales, setSales] = useState(props.data);
+    const fetcher = (url) => fetch(url).then((res) => res.json());
+    const {data, err} = useSWR("https://jsonplaceholder.typicode.com/users", fetcher)
 
-            for( const key in data ){
-                salesData.push({
-                    id:key,
-                    username: data[key].username,
-                    volume: data[key].volume,
-                    
-                });
-                
-            }
 
-            setSales(salesData);
-            setIsLoading(false)
-        }).catch((err) =>{
-            console.log(err.message)
-        });
-    }, []);
 
-    if(isLoading){
+
+    if(err){
+        return <p>Failed to load</p>
+    }
+
+    if(!data){
         return <p>Loading</p>
     }
-    if(!sales){
-        return <p>No data</p>
-    }
+    
     
     return (
         <ul>
-            {sales.map((sale) =>(
+            {data.map((sale) => (
                 <li key={sale.id}>
-                    {sale.username}
+                    {sale.name}
+                    &nbsp;
+                    {sale.website}
                 </li>
             ))}
-            
         </ul>
     )
 
 
+}
+
+export async function getStaticProps(){
+    return fetch('https://jsonplaceholder.typicode.com/users'
+    ).then((response) => response.json())
+    .then((data) => {
+
+        const salesData = [];
+
+        for (const key in data ){
+            salesData.push({
+                id:key,
+                username: data[key].username,
+                website: data[key].website,
+                
+            });
+            
+        }
+
+        return { props: {sales: salesData}, revalidate: 10};
+    });
 }
 
 export default LastSale;
