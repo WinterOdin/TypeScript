@@ -35,7 +35,10 @@ function AllEventsPage(props) {
 }
 
 export async function getStaticProps() {
-  const events = await getAllEvents();
+  const { PrismaClient } = require('@prisma/client')
+  const prisma = new PrismaClient()
+  
+  const events = await prisma.event.findMany()
 
   return {
     props: {

@@ -21,7 +21,15 @@ function HomePage(props) {
 }
 
 export async function getStaticProps() {
-  const featuredEvents = await getFeaturedEvents();
+  const { PrismaClient } = require('@prisma/client')
+  const prisma = new PrismaClient()
+  const featuredEvents = await prisma.event.findMany({
+    where: {
+      isFeatured: {
+        equals: true
+      },
+    },
+  })
 
   return {
     props: {

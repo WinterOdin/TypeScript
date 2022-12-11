@@ -16,7 +16,7 @@ function FilteredEventsPage(props) {
   const filterData = router.query.slug;
 
   const { data, error } = useSWR(
-    'https://nextjs-course-c81cc-default-rtdb.firebaseio.com/events.json'
+    'https://dummydata-e0566-default-rtdb.europe-west1.firebasedatabase.app/events.json'
   );
 
   useEffect(() => {
@@ -120,49 +120,5 @@ function FilteredEventsPage(props) {
     </Fragment>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   const { params } = context;
-
-//   const filterData = params.slug;
-
-//   const filteredYear = filterData[0];
-//   const filteredMonth = filterData[1];
-
-//   const numYear = +filteredYear;
-//   const numMonth = +filteredMonth;
-
-//   if (
-//     isNaN(numYear) ||
-//     isNaN(numMonth) ||
-//     numYear > 2030 ||
-//     numYear < 2021 ||
-//     numMonth < 1 ||
-//     numMonth > 12
-//   ) {
-//     return {
-//       props: { hasError: true },
-//       // notFound: true,
-//       // redirect: {
-//       //   destination: '/error'
-//       // }
-//     };
-//   }
-
-//   const filteredEvents = await getFilteredEvents({
-//     year: numYear,
-//     month: numMonth,
-//   });
-
-//   return {
-//     props: {
-//       events: filteredEvents,
-//       date: {
-//         year: numYear,
-//         month: numMonth,
-//       },
-//     },
-//   };
-// }
 
 export default FilteredEventsPage;

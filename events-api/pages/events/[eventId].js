@@ -45,8 +45,15 @@ function EventDetailPage(props) {
 
 export async function getStaticProps(context) {
   const eventId = context.params.eventId;
+  
+  const { PrismaClient } = require('@prisma/client')
+  const prisma = new PrismaClient()
 
-  const event = await getEventById(eventId);
+  const event = await prisma.event.findUnique({
+    where: {
+      id: +eventId
+    },
+  })
 
   return {
     props: {
