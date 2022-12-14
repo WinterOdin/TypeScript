@@ -1,6 +1,10 @@
-function allPost(){
+import AllPosts from "../../components/posts/all-posts";
 
+
+function AllPostPage(){
+
+    return <AllPosts />
 
 }
 
-export default allPost
+export default AllPostPage;
