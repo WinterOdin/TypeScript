@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 import Hero from '../components/home-page/hero';
-import featuredPosts from "../components/home-page/featured-post";
+import FeaturedPosts from "../components/home-page/featured-post";
 
 function HomePage(){
     
@@ -18,7 +18,7 @@ function HomePage(){
 
         <Fragment>
             <Hero />
-            <featuredPosts posts={DUMMY_POSTS} />
+            <FeaturedPosts posts={DUMMY_POSTS} />
         </Fragment>
 
     )
