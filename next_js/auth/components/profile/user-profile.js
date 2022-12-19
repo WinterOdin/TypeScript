@@ -1,8 +1,27 @@
+import { useEffect, useState } from 'react';
 import ProfileForm from './profile-form';
 import classes from './user-profile.module.css';
+import { useSession, signOut, getSession } from 'next-auth/react';
 
 function UserProfile() {
-  // Redirect away if NOT auth
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadedSession, setLoadedSession] = useState();
+
+  useEffect(() => {
+    getSession().then(session => {
+      setIsLoading(false);
+      if(!session){
+        window.location.href = '/auth';
+      }
+      
+    });
+  }, []);
+  
+  const [session, loading] = useSession();
+
+  if(isLoading) {
+    return <p className={classes.profile}>Loading...</p>
+  }
 
   return (
     <section className={classes.profile}>

@@ -15,20 +15,30 @@ async function handler(req, res){
         return;
     }
 
-    const hashPwd = await hashPassword(password);
+    const checkExistance = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      })
 
-    const userData = {
-        email: email,
-        password: hashPwd
+    if(!checkExistance){
+        const hashPwd = await hashPassword(password);
+
+        const userData = {
+            email: email,
+            password: hashPwd
+        }
+    
+        const result = await prisma.user.create({ data: userData })
+    
+        res.status(201)
+        .json({message:"New account added"})
+    
+        }
+    }else{
+        res.status(422)
+        .json({message:"Account exists"})
     }
-
-    const result = await prisma.user.create({ data: userData })
-
-    res.status(201)
-    .json({message:"New account added"})
-
-    }
-
 
 
 }
