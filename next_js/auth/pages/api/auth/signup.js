@@ -4,37 +4,37 @@ import { hashPassword } from '../../../lib/auth.js';
 async function handler(req, res){
     if (req.method === 'POST'){
         const data = req.body;
-    const {email, password} = data;
+        const {email, password} = data;
 
-    if (
-        !email || !email.includes('@') ||
-        !password || password.trim().length < 7
-    ){
-        res.status(422)
-        .json({message:'Invalid Input'});
-        return;
-    }
+        if (
+            !email || !email.includes('@') ||
+            !password || password.trim().length < 7
+        ){
+            res.status(422)
+            .json({message:'Invalid Input'});
+            return;
+        }
 
-    const checkExistance = await prisma.user.findUnique({
-        where: {
-          email: email,
-        },
-      })
-
-    if(!checkExistance){
-        const hashPwd = await hashPassword(password);
-
-        const userData = {
+        const checkExistance = await prisma.user.findUnique({
+            where: {
             email: email,
-            password: hashPwd
-        }
-    
-        const result = await prisma.user.create({ data: userData })
-    
-        res.status(201)
-        .json({message:"New account added"})
-    
-        }
+            },
+        })
+
+        if(!checkExistance){
+            const hashPwd = await hashPassword(password);
+
+            const userData = {
+                email: email,
+                password: hashPwd
+            }
+        
+            const result = await prisma.user.create({ data: userData })
+        
+            res.status(201)
+            .json({message:"New account added"})
+        
+            }
     }else{
         res.status(422)
         .json({message:"Account exists"})

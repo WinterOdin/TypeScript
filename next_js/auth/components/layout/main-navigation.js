@@ -4,8 +4,9 @@ import classes from './main-navigation.module.css';
 
 function MainNavigation() {
 
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession()
 
+  
   function logoutHandler(){
     signOut();
   }
@@ -19,7 +20,7 @@ function MainNavigation() {
       </Link>
       <nav>
         <ul>
-          {!session && !loading (
+          {!session &&  (
             <li>
               <Link legacyBehavior href='/auth'>Login</Link>
             </li>
